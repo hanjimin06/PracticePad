@@ -1,0 +1,11 @@
+---
+title: "Page_1"
+author: "Jimin Han"
+date: "12/24/2020"
+output: md_document
+---
+
+```{r}
+library(tidyverse)
+mpg
+```
