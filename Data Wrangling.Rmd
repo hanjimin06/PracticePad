@@ -53,10 +53,37 @@ filter(flights, arr_delay >= 60 & dep_delay - arr_delay > 30)
 
 ```
 
+```{r}
+#Practice Arrange()
+
+arrange(flights, year, month, day)
+arrange(flights, carrier, distance)
+
+arrange(flights, desc(dep_delay))
+
+#Exercise 5.3.1 Assign all NA values to start.
+arrange(flights, dep_time) %>% 
+  tail() #this shows the last part of the vector, so all NA values.
+
+arrange(flights, desc(is.na(dep_time)), dep_time)
+
+#5.3.2. Sort most delayed flights
+arrange(flights, desc(dep_delay))
+
+#5.3.4. Which flights travelled the farthest, shortest
+arrange(flights, desc(distance))
+```
+
+
+```{r}
 
 
 
 
+
+
+
+```
 
 
 
