@@ -76,17 +76,50 @@ arrange(flights, desc(distance))
 
 
 ```{r}
+#Select()
+#5.4.1. Select dep_time, dep_delay, arr_time, arr_delay
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
 
+```
 
+```{r}
+#Mutate()
+flights_sml <- select(flights, year:day, ends_with("delay"), distance, air_time)
+flights_sml
 
+mutate(flights_sml, 
+       gain = dep_delay - arr_delay,
+       speed = distance / air_time * 60
+    )
 
+mutate(flights_sml, 
+       gain = dep_delay - arr_delay,
+       hours = air_time / 60,
+       gain_per_hour = gain/hours
+    )
 
-
+#5.5.1. Convert dep_time into minutes from midnight
+flights
+mutate(
+    flights,
+    dep_minutes = dep_time %/% 100 * 60 + dep_time %% 100  %% 1440
+)
 
 ```
 
 
+```{r}
+#Piping
 
+delays <- flights %>%
+  group_by(dest) %>%
+  summarize(
+    count = n(),
+    avg_dist = mean(distance, na.rm = TRUE),
+    avg_delay = mean(arr_delay, na.rm = TRUE)
+  ) %>%
+  
+  filter(count > 20, dest != "HNL")
 
-
+```
 

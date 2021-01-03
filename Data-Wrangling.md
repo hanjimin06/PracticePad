@@ -259,3 +259,139 @@ and is documented in `?flights`.
     ## # … with 336,766 more rows, and 11 more variables: arr_delay <dbl>,
     ## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
     ## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
+
+    #Select()
+    #5.4.1. Select dep_time, dep_delay, arr_time, arr_delay
+    select(flights, dep_time, dep_delay, arr_time, arr_delay)
+
+    ## # A tibble: 336,776 x 4
+    ##    dep_time dep_delay arr_time arr_delay
+    ##       <int>     <dbl>    <int>     <dbl>
+    ##  1      517         2      830        11
+    ##  2      533         4      850        20
+    ##  3      542         2      923        33
+    ##  4      544        -1     1004       -18
+    ##  5      554        -6      812       -25
+    ##  6      554        -4      740        12
+    ##  7      555        -5      913        19
+    ##  8      557        -3      709       -14
+    ##  9      557        -3      838        -8
+    ## 10      558        -2      753         8
+    ## # … with 336,766 more rows
+
+    #Mutate()
+    flights_sml <- select(flights, year:day, ends_with("delay"), distance, air_time)
+    flights_sml
+
+    ## # A tibble: 336,776 x 7
+    ##     year month   day dep_delay arr_delay distance air_time
+    ##    <int> <int> <int>     <dbl>     <dbl>    <dbl>    <dbl>
+    ##  1  2013     1     1         2        11     1400      227
+    ##  2  2013     1     1         4        20     1416      227
+    ##  3  2013     1     1         2        33     1089      160
+    ##  4  2013     1     1        -1       -18     1576      183
+    ##  5  2013     1     1        -6       -25      762      116
+    ##  6  2013     1     1        -4        12      719      150
+    ##  7  2013     1     1        -5        19     1065      158
+    ##  8  2013     1     1        -3       -14      229       53
+    ##  9  2013     1     1        -3        -8      944      140
+    ## 10  2013     1     1        -2         8      733      138
+    ## # … with 336,766 more rows
+
+    mutate(flights_sml, 
+           gain = dep_delay - arr_delay,
+           speed = distance / air_time * 60
+        )
+
+    ## # A tibble: 336,776 x 9
+    ##     year month   day dep_delay arr_delay distance air_time  gain speed
+    ##    <int> <int> <int>     <dbl>     <dbl>    <dbl>    <dbl> <dbl> <dbl>
+    ##  1  2013     1     1         2        11     1400      227    -9  370.
+    ##  2  2013     1     1         4        20     1416      227   -16  374.
+    ##  3  2013     1     1         2        33     1089      160   -31  408.
+    ##  4  2013     1     1        -1       -18     1576      183    17  517.
+    ##  5  2013     1     1        -6       -25      762      116    19  394.
+    ##  6  2013     1     1        -4        12      719      150   -16  288.
+    ##  7  2013     1     1        -5        19     1065      158   -24  404.
+    ##  8  2013     1     1        -3       -14      229       53    11  259.
+    ##  9  2013     1     1        -3        -8      944      140     5  405.
+    ## 10  2013     1     1        -2         8      733      138   -10  319.
+    ## # … with 336,766 more rows
+
+    mutate(flights_sml, 
+           gain = dep_delay - arr_delay,
+           hours = air_time / 60,
+           gain_per_hour = gain/hours
+        )
+
+    ## # A tibble: 336,776 x 10
+    ##     year month   day dep_delay arr_delay distance air_time  gain hours
+    ##    <int> <int> <int>     <dbl>     <dbl>    <dbl>    <dbl> <dbl> <dbl>
+    ##  1  2013     1     1         2        11     1400      227    -9 3.78 
+    ##  2  2013     1     1         4        20     1416      227   -16 3.78 
+    ##  3  2013     1     1         2        33     1089      160   -31 2.67 
+    ##  4  2013     1     1        -1       -18     1576      183    17 3.05 
+    ##  5  2013     1     1        -6       -25      762      116    19 1.93 
+    ##  6  2013     1     1        -4        12      719      150   -16 2.5  
+    ##  7  2013     1     1        -5        19     1065      158   -24 2.63 
+    ##  8  2013     1     1        -3       -14      229       53    11 0.883
+    ##  9  2013     1     1        -3        -8      944      140     5 2.33 
+    ## 10  2013     1     1        -2         8      733      138   -10 2.3  
+    ## # … with 336,766 more rows, and 1 more variable: gain_per_hour <dbl>
+
+    #5.5.1. Convert dep_time into minutes from midnight
+    flights
+
+    ## # A tibble: 336,776 x 19
+    ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+    ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
+    ##  1  2013     1     1      517            515         2      830            819
+    ##  2  2013     1     1      533            529         4      850            830
+    ##  3  2013     1     1      542            540         2      923            850
+    ##  4  2013     1     1      544            545        -1     1004           1022
+    ##  5  2013     1     1      554            600        -6      812            837
+    ##  6  2013     1     1      554            558        -4      740            728
+    ##  7  2013     1     1      555            600        -5      913            854
+    ##  8  2013     1     1      557            600        -3      709            723
+    ##  9  2013     1     1      557            600        -3      838            846
+    ## 10  2013     1     1      558            600        -2      753            745
+    ## # … with 336,766 more rows, and 11 more variables: arr_delay <dbl>,
+    ## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
+    ## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
+
+    mutate(
+        flights,
+        dep_minutes = dep_time %/% 100 * 60 + dep_time %% 100  %% 1440
+    )
+
+    ## # A tibble: 336,776 x 20
+    ##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+    ##    <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
+    ##  1  2013     1     1      517            515         2      830            819
+    ##  2  2013     1     1      533            529         4      850            830
+    ##  3  2013     1     1      542            540         2      923            850
+    ##  4  2013     1     1      544            545        -1     1004           1022
+    ##  5  2013     1     1      554            600        -6      812            837
+    ##  6  2013     1     1      554            558        -4      740            728
+    ##  7  2013     1     1      555            600        -5      913            854
+    ##  8  2013     1     1      557            600        -3      709            723
+    ##  9  2013     1     1      557            600        -3      838            846
+    ## 10  2013     1     1      558            600        -2      753            745
+    ## # … with 336,766 more rows, and 12 more variables: arr_delay <dbl>,
+    ## #   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
+    ## #   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>,
+    ## #   dep_minutes <dbl>
+
+    #Piping
+
+    delays <- flights %>%
+      group_by(dest) %>%
+      summarize(
+        count = n(),
+        avg_dist = mean(distance, na.rm = TRUE),
+        avg_delay = mean(arr_delay, na.rm = TRUE)
+      ) %>%
+      
+      filter(count > 20, dest != "HNL")
+
+    ## `summarise()` ungrouping output (override with `.groups` argument)
