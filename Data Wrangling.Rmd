@@ -27,9 +27,37 @@ Take careful note of the conflicts message that's printed when you load the tidy
 
 To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This data frame contains all `r format(nrow(nycflights13::flights), big.mark = ",")` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?flights`.
 
+
+
 ```{r}
 flights
+
+#using to learn the verb filter.
+
+jun6 <- filter(flights, month == 6, day ==6)
+jun_aug <- filter(flights, month ==6 | month ==8)
+hourlongdelays <- filter(flights, arr_delay > 60 & air_time < 1000 )
 ```
+
+```{r}
+#Exercise 5.2.4
+
+#1 Arrival delay of two or more hrs.
+filter(flights, arr_delay >= 120)
+
+#2 Flew to Houston
+filter(flights, dest == "IAH" | dest == "HOU")
+
+#6 Delayed by at least an hour, but made up over 30 minutes in the air
+filter(flights, arr_delay >= 60 & dep_delay - arr_delay > 30)
+
+```
+
+
+
+
+
+
 
 
 
